@@ -3,20 +3,35 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    path: '',
+    redirectTo: 'items',
+    pathMatch: 'full',
   },
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    path: 'items',
+    // I want to have a path recipes which loads my recipes page module
+    // And in the child page I can use the recipe ID
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./items/items.module').then((m) => m.ItemsPageModule), //connect to homepage
+      },
+      {
+        path: ':itemId',
+        loadChildren: () =>
+          import('./items/item-detail/item-detail.module').then(
+            (m) => m.ItemDetailPageModule
+          ),
+      },
+    ],
   },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

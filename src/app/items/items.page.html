@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Items</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of items">
+      <!-- This is the component which can wrap the ion-img like normal image -->
+      <ion-avatar slot="start" [routerLink]="['/items', item.id]">
+        <ion-img [src]="item.imageUrl"></ion-img>
+      </ion-avatar>
+
+      <ion-row>
+        <ion-col [routerLink]="['/items', item.id]">
+          <ion-label>
+            {{item.title}}
+          </ion-label>
+          <ion-label>
+            ${{item.price}}
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-button (click)="onRemoveItem(item)" slot="end">
+        <ion-icon name="remove-outline"></ion-icon>
+      </ion-button>
+      <ion-label slot="end">
+        {{item.quantity}}
+      </ion-label>
+      <ion-button (click)="onAddItem(item)" [routerLink]='null' slot="end">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+    <ion-item class="ion-text-center" [routerLink]="['./checkout']">
+      <ion-button slot="end">
+        <ion-label>Checkout Items</ion-label>
+      </ion-button>
+    </ion-item>
+
+  </ion-list>
+</ion-content>
